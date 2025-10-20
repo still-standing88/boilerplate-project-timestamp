@@ -27,7 +27,6 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date?", function (req, res) {
   let dateParam = req.params.date;
   
-  // If no date parameter, return current time
   if (!dateParam) {
     const now = new Date();
     return res.json({
@@ -38,21 +37,17 @@ app.get("/api/:date?", function (req, res) {
   
   let date;
   
-  // Check if dateParam is a unix timestamp (all digits)
+
   if (/^\d+$/.test(dateParam)) {
-    // Parse as unix timestamp (in milliseconds)
     date = new Date(parseInt(dateParam));
   } else {
-    // Parse as date string
     date = new Date(dateParam);
   }
   
-  // Check if date is valid
   if (date.toString() === "Invalid Date") {
     return res.json({ error: "Invalid Date" });
   }
   
-  // Return valid date in both formats
   res.json({
     unix: date.getTime(),
     utc: date.toUTCString()
